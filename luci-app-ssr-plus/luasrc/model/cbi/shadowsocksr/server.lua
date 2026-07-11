@@ -34,7 +34,11 @@ local encrypt_methods_ss = {
 	"aes-192-gcm",
 	"aes-256-gcm",
 	"chacha20-ietf-poly1305",
-	"xchacha20-ietf-poly1305"
+	"xchacha20-ietf-poly1305",
+	-- aead 2022
+	"2022-blake3-aes-128-gcm",
+	"2022-blake3-aes-256-gcm",
+	"2022-blake3-chacha20-poly1305"
 	--[[ stream
 	"table",
 	"rc4",
@@ -116,15 +120,9 @@ function o.cfgvalue(...)
 end
 
 o = sec:option(DummyValue, "encrypt_method", translate("Encrypt Method"))
-function o.cfgvalue(...)
-	local v = Value.cfgvalue(...)
-	return v and v:upper() or "-"
-end
-
-o = sec:option(DummyValue, "encrypt_method_ss", translate("Encrypt Method"))
-function o.cfgvalue(...)
-	local v = Value.cfgvalue(...)
-	return v and v:upper() or "-"
+function o.cfgvalue(self, section)
+	local method = self.map:get(section, "encrypt_method") or self.map:get(section, "encrypt_method_ss")
+	return method and method:upper() or "-"
 end
 
 o = sec:option(DummyValue, "protocol", translate("Protocol"))

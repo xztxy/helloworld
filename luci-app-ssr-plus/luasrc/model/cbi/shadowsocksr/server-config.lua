@@ -38,7 +38,11 @@ local encrypt_methods_ss = {
 	"aes-192-gcm",
 	"aes-256-gcm",
 	"chacha20-ietf-poly1305",
-	"xchacha20-ietf-poly1305"
+	"xchacha20-ietf-poly1305",
+	-- aead 2022
+	"2022-blake3-aes-128-gcm",
+	"2022-blake3-aes-256-gcm",
+	"2022-blake3-chacha20-poly1305"
 	--[[ stream
 	"table",
 	"rc4",
@@ -82,7 +86,7 @@ o.rmempty = false
 o = s:option(ListValue, "type", translate("Server Type"))
 o:value("socks5", translate("Socks5"))
 if nixio.fs.access("/usr/bin/ssserver") or nixio.fs.access("/usr/bin/ss-server") then
-	o:value("ss", translate("Shadowsocks"))
+	o:value("ss", translate("ShadowSocks"))
 end
 if nixio.fs.access("/usr/bin/ssr-server") then
 	o:value("ssr", translate("ShadowsocksR"))
@@ -139,7 +143,7 @@ end
 o.rmempty = false
 o:depends("type", "ssr")
 
-o = s:option(Value, "obfs_param", translate("Obfs param(optional)"))
+o = s:option(Value, "obfs_param", translate("Obfs param (optional)"))
 o:depends("type", "ssr")
 
 o = s:option(Flag, "fast_open", translate("TCP Fast Open"))
